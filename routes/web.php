@@ -25,6 +25,13 @@ Route::get('/contacto/{tipo?}', function ($tipo = null) { //Para recibir variabl
 });
 
 Route::post('/validar-contacto', function(Request $request) { //Técinca "Inyección de métodos" se crea una isntancia de la clase request
+    //Reglas de validación de las peticiones
+    $request -> validate([
+        'nombrePersona' => ['required'],
+        'correo' => ['required', 'email'],
+        'comentarios' => ['required', 'min:5']
+    ])     ;
+    
     //dd($request->correo); //Método de la instancia, all() recupera todos los valores en un arreglo, y de uno por uno se usa el nombre de las variables
     $contacto = new Contacto(); //Instancia del modelo Contacto que se creó con php artisan
     $contacto->nombrePersona = $request->nombrePersona;
@@ -34,3 +41,5 @@ Route::post('/validar-contacto', function(Request $request) { //Técinca "Inyecc
     //Se redirige a la url última petición
     return redirect()->back();
 });
+
+Route:
