@@ -16,17 +16,33 @@
         </h3>
     </header>
     <main> <!-- Contenido principal-->
+        <!-- Aquí se manda mensajes de error juntos hasta arriba --> 
+        @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
         <form action="validar-contacto" method="post"> <!-- action se puede dejar en blanco o pasar el nombre del mismo archivo-->
             @csrf <!-- Crea un input oculto con u token, para saber que viene de la aplicación es para el POST xdd-->
             <label for="nombrePersona">Nombre:</label> <!-- for debe coincidir con id del input-->
             <input type="text" name="nombrePersona" id="nombrePersona" placeholder="Nombre completo" required> <br>
-
+            
             <label for="correo">Correo:</label> <!-- for debe coincidir con id del input-->
             <input type="email" name="correo" id="correo" placeholder="Correo electrónico" required @if($tipo == 'alumno') value = "@alumnos.udg.mx" @else value = "@gmail.com" @endif> <br> <!--Se pasó variables-->
-
+            <!-- Mensajes de error por separado-->
+            @error('correo')
+                <div class="alert alert-danger">{{ $message }}</div>
+            @enderror
             <label for="comentarios">Comentarios:</label> <br> <!-- for debe coincidir con id del input-->
             <textarea name="comentarios" id="comentarios" cols="30" rows="10" placeholder="Escribe un comentario..."></textarea> <br>
-
+            <!-- Mensajes de error por separado-->
+            @error('comentarios')
+                <div class="alert alert-danger">{{ $message }}</div>
+            @enderror
             <button type="submit">Enviar formulario</button>
         </form>
     </main>
